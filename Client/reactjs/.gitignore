@@ -7,6 +7,15 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Secrets — never commit; use .env.example as the template
+.env
+.env.*
+!.env.example
+!**/.env.example
+client/.env
+server/.env
+credentials.json
+
 node_modules
 dist
 dist-ssr
