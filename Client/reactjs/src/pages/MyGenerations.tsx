@@ -8,25 +8,26 @@ import { PrimaryButton } from '../components/Buttons';
 const MyGenerations = () => {
 
   const [generations, setGenerations] = useState<Project[]>([])
-    const [loading, setLoading] = useState(true)
-  
-    const fetchMyGenerations = async ()=>{
-      setTimeout(()=>{
-        //setGenerations([]);
-        setGenerations(dummyGenerations);
-        setLoading(false)
-      }, 3000)
-    }
-  
-    useEffect(()=>{
-      fetchMyGenerations()
-    }, [])
+  const [loading, setLoading] = useState(true)
 
-  return loading? (
+  const fetchMyGenerations = async () => {
+    setTimeout(() => {
+      //setGenerations([]);
+      setGenerations(dummyGenerations);
+      setLoading(false)
+    }, 3000)
+  }
+
+  useEffect(() => {
+    fetchMyGenerations()
+  }, []
+  )
+
+  return loading ? (
     <div className="flex items-center justify-center min-h-screen">
-      <Loader2Icon className="size-7 animated-spin text-indigo-400"/>  
+      <Loader2Icon className="size-7 animated-spin text-indigo-400" />
     </div>
-  ):(
+  ) : (
     <div className="min-h-screen text-white p-6 md:p-12 my-28">
       <div className="max-w-6xl mx-auto">
         <header className="mb-12">
@@ -36,8 +37,8 @@ const MyGenerations = () => {
 
         {/* Generations List */}
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
-          {generations.map((gen)=>(
-            <ProjectCard key={gen.id} gen={gen} setGenerations={setGenerations}/>
+          {generations.map((gen) => (
+            <ProjectCard key={gen.id} gen={gen} setGenerations={setGenerations} />
           ))}
 
         </div>
@@ -47,7 +48,7 @@ const MyGenerations = () => {
           border-white/10">
             <h3 className="text-xl font-medium mb-2">No generations yet</h3>
             <p className="text-gray-400 mb-6">Start creating stunning product photos today</p>
-            <PrimaryButton onClick={()=>window.location.href= '/generate'}>
+            <PrimaryButton onClick={() => window.location.href = '/generate'}>
               Create New Generations
 
             </PrimaryButton>

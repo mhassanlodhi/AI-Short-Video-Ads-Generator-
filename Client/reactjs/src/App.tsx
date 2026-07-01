@@ -26,7 +26,7 @@ function App() {
 				<Route path='/loading' element={<Loading />} />
 				<Route path='/my-generations' element={<MyGenerations />} />
 				<Route path='/plans' element={<Plans />} />
-				<Route path='/result/projectId' element={<Result />} />
+				<Route path='/results/:projectId' element={<Result />} />
 				
 			</Routes>
 			
