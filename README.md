@@ -11,6 +11,7 @@ UGC.AI is a premium, full-stack AI SaaS application designed to turn product pho
 - **Dynamic Action Menu**: Share generated assets instantly or download high-quality images and video files.
 - **Generation Result View**: Review completed projects on dedicated detail pages containing high-fidelity previews.
 - **Community Feed**: Discover and share UGC-style video ads created by other creators.
+- **Pricing & Credit System**: Choose pricing plans customized using Clerk features.
 - **Ultra-Smooth UX**: Powered by Lenis smooth scrolling, micro-animations via Framer Motion, and beautiful dark-themed aesthetics.
 
 ---
@@ -22,14 +23,17 @@ UGC.AI is a premium, full-stack AI SaaS application designed to turn product pho
 - **Build Tooling**: Vite 7
 - **Routing**: React Router 7
 - **Styling**: Tailwind CSS v4 (incorporating `@tailwindcss/vite` plugin)
+- **Authentication**: Clerk React (`@clerk/react` & `@clerk/themes`)
 - **Animations**: Framer Motion
 - **Scroll Physics**: Lenis Scroll
 - **Icons**: Lucide React
 
 ### Backend Infrastructure
 - **Server Framework**: Node.js & Express
-- **Database**: PostgreSQL (with PG Pool connection)
-- **AI Processing Engine**: Google Gemini API & specialized image/video composition pipelines
+- **Database ORM**: Prisma (PostgreSQL with PG Pool adapter)
+- **Authentication**: Clerk Express Middleware (`@clerk/express`)
+- **Webhook Handlers**: SVIX webhook validation (`@clerk/express/webhooks`)
+- **Environment**: dotenv & TypeScript execution using `tsx`
 
 ---
 
@@ -40,14 +44,23 @@ UGC.AI is a premium, full-stack AI SaaS application designed to turn product pho
 │   └── reactjs/
 │       ├── src/
 │       │   ├── assets/        # Shared assets (images, static data mockups)
-│       │   ├── components/    # Reusable UI components (Navbar, Footer, ProjectCard, Buttons, etc.)
+│       │   ├── components/    # Reusable UI components (Navbar, Footer, ProjectCard, Buttons, Pricing, etc.)
 │       │   ├── pages/         # Page components (Home, Generator, MyGenerations, Result, Community, Plans)
 │       │   ├── types/         # TypeScript type and interface declarations
 │       │   ├── App.tsx        # Application root and route configuration
 │       │   └── main.tsx       # Entry point
-│       ├── package.json
-│       ├── vite.config.ts
-│       └── tailwind.config.js
+│       ├── .env.example       # Client environment configuration template
+│       └── package.json
+├── Server/
+│   ├── configs/               # Configuration files (Prisma client settings)
+│   ├── controllers/           # Route logic controllers (Clerk Webhooks, etc.)
+│   ├── middlewares/           # Authentication check and authorization middlewares
+│   ├── prisma/                # Schema database definitions and migration history
+│   ├── types/                 # Express custom global type overrides
+│   ├── .env.example           # Server environment configuration template
+│   ├── package.json
+│   ├── server.ts              # Server entrypoint
+│   └── tsconfig.json          # TypeScript config
 ```
 
 ---
@@ -55,9 +68,39 @@ UGC.AI is a premium, full-stack AI SaaS application designed to turn product pho
 ## 🚀 Getting Started
 
 ### Prerequisites
-Make sure you have [Node.js](https://nodejs.org/) installed (v18+ recommended).
+Make sure you have [Node.js](https://nodejs.org/) installed (v18+ recommended) and a running [PostgreSQL](https://www.postgresql.org/) database.
 
-### Running the Client Locally
+### 1. Running the Server Backend
+
+1. Navigate to the server directory:
+   ```bash
+   cd Server
+   ```
+
+2. Install dependency packages:
+   ```bash
+   npm install
+   ```
+
+3. Configure your environment variables:
+   - Duplicate `.env.example` and name the file `.env`:
+     ```bash
+     cp .env.example .env
+     ```
+   - Fill in your `DATABASE_URL` (and optionally `CLERK_PUBLISHABLE_KEY`/`CLERK_SECRET_KEY` if authenticating routes).
+
+4. Apply database migrations:
+   ```bash
+   npx prisma migrate dev
+   ```
+
+5. Launch the backend server (using Nodemon & TSX):
+   ```bash
+   npm run server
+   ```
+   *The server runs locally at [http://localhost:5000](http://localhost:5000).*
+
+### 2. Running the Client Frontend
 
 1. Navigate to the client directory:
    ```bash
@@ -69,16 +112,36 @@ Make sure you have [Node.js](https://nodejs.org/) installed (v18+ recommended).
    npm install
    ```
 
-3. Launch the development server:
+3. Configure your environment variables:
+   - Duplicate `.env.example` and name the file `.env`:
+     ```bash
+     cp .env.example .env
+     ```
+   - Fill in your `VITE_CLERK_PUBLISHABLE_KEY`.
+
+4. Launch the development server:
    ```bash
    npm run dev
    ```
-   *The client will default to running on [http://localhost:5173](http://localhost:5173).*
+   *The client runs locally at [http://localhost:5173](http://localhost:5173).*
 
-4. Build for production:
-   ```bash
-   npm run build
-   ```
+---
+
+## 📦 Build & Production Commands
+
+### Client Production Build
+To generate static production files for the frontend:
+```bash
+cd Client/reactjs
+npm run build
+```
+
+### Server Compilation
+To compile TypeScript code to Javascript in `/dist`:
+```bash
+cd Server
+npm run build
+```
 
 ---
 
