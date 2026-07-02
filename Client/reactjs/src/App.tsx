@@ -18,8 +18,8 @@ function App() {
 			<LenisScroll />
 			<Navbar />
 
-         
-            <Routes>
+
+			<Routes>
 				<Route path='/' element={<Home />} />
 				<Route path='/generate' element={<Generator />} />
 				<Route path='/community' element={<Community />} />
@@ -27,9 +27,9 @@ function App() {
 				<Route path='/my-generations' element={<MyGenerations />} />
 				<Route path='/plans' element={<Plans />} />
 				<Route path='/results/:projectId' element={<Result />} />
-				
+
 			</Routes>
-			
+
 
 			<Footer />
 		</>
