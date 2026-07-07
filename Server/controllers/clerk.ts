@@ -77,6 +77,7 @@ const clerkWebhooks = async (req: Request, res: Response) => {
         res.json({ message: "Webhook received: " + type })
 
     } catch (error: any) {
+        console.error("Webhook Verification Failed:", error.message || error);
         return res.status(500).json({ message: error.code || error.message })
     }
 }
