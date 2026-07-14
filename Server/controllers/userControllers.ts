@@ -20,7 +20,7 @@ export const getUserCredits = async (req: Request, res: Response) => {
         
     }
      catch (error: any) {
-        Sentry.captureException(error)
+        Sentry.captureException(error);
         res.status(500).json({ message: error.code || error.message })
     }
 }
